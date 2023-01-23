@@ -9,7 +9,7 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['booking_id', 'date'];
+    protected $guarded = [];
 
     /**
      * The attributes that should be cast.
