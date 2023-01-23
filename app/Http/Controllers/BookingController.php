@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Reservation;
+use App\Services\AvailabilityService;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -28,7 +32,46 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'from' => ['required', 'date', 'after_or_equal:today'],
+            'to' => ['required', 'date', 'after_or_equal:from'],
+            'vehicle_registration' => ['required', 'max:255'],
+            'payment_method' => ['required', 'max:255'],
+        ]);
+
+        $from = Carbon::createFromFormat('Y-m-d', $request->input('from'));
+        $to = Carbon::createFromFormat('Y-m-d', $request->input('to'));
+
+        $price = \App\Models\Price::query()
+            ->cheapestOnDates($from, $to)
+            ->amount;
+
+        if((new AvailabilityService($from, $to))->notBookable()) {
+            return response()->json([
+                'error' => true,
+                'message' => 'there is no availability for the dates requested'
+            ]);
+        }
+
+        $booking = new Booking;
+        $booking->user_id = 1;
+        $booking->vehicle_registration = $request->input('vehicle_registration');
+        $booking->payment = $price;
+        $booking->payment_method = $request->input('payment_method');
+        $booking->save();
+
+        $period = CarbonPeriod::create($from, $to);
+        $reservations = [];
+        foreach ($period as $day) {
+            $reservations[] = [
+                'booking_id' => $booking->id,
+                'date' => $day->format('Y-m-d'),
+            ];
+        }
+        
+        $booking->reservations()->createMany($reservations);
+
+        return $booking->load('reservations');
     }
 
     /**
