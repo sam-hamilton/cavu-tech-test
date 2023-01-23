@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -77,8 +78,16 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Booking $booking)
     {
-        //
+        if($booking->delete()) {
+            return response()->json([
+                'message' => 'booking was deleted successfully!'
+            ]);
+        }
+        return response()->json([
+                'error' => true,
+                'message' => 'failed to delete the booking!'
+        ]);
     }
 }
