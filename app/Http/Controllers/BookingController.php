@@ -92,9 +92,16 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Booking $booking)
     {
-        //
+        $validatedData = $request->validate([
+            'vehicle_registration' => ['required', 'max:255'],
+        ]);
+
+        $booking->vehicle_registration = $request->input('vehicle_registration');
+        $booking->save();
+
+        return $booking->load('reservations');
     }
 
     /**
