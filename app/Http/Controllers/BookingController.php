@@ -14,7 +14,10 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        return Booking::query()
+            ->with('reservations')
+            ->orderByDesc('created_at')
+            ->paginate(10);
     }
 
     /**
