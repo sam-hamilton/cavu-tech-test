@@ -7,4 +7,18 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## CAVU technical test
+# CAVU Technical Task
+## API Endpoints
+- Get availability - (GET) */api/availability?from=2023-01-25&to=2023-02-07*
+- Create booking - (POST) */api/bookings?from=2023-01-25&to=2023-01-30&vehicle_registration=ABC 123&payment_method=PayPal*
+- Delete booking - (DELETE) */api/bookings/2*
+- Edit booking - (PATCH)  */api/bookings/1?vehicle_registration=XYZ 789*
+- Show booking - (GET) */api/bookings/1*
+- List bookings - (GET) */api/bookings*
+## Notes
+- You can use `php artisan db:seed` to run some basic seeders
+- The API will stop you booking a reservation if there is no availability
+- The API will choose the cheapest price based on the duration of their reservation
+- You can only edit the vehicle registration, a user would have to cancel their booking and create a new one if they wanted to change the date
+- The API has not been versioned for this task (i.e. v1)
+- No authorisation is required for to access the API
