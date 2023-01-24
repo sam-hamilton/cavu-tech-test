@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
-use App\Models\Reservation;
 use App\Services\AvailabilityService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -46,10 +45,10 @@ class BookingController extends Controller
             ->cheapestOnDates($from, $to)
             ->amount;
 
-        if((new AvailabilityService($from, $to))->notBookable()) {
+        if ((new AvailabilityService($from, $to))->notBookable()) {
             return response()->json([
                 'error' => true,
-                'message' => 'there is no availability for the dates requested'
+                'message' => 'there is no availability for the dates requested',
             ]);
         }
 
@@ -68,7 +67,7 @@ class BookingController extends Controller
                 'date' => $day->format('Y-m-d'),
             ];
         }
-        
+
         $booking->reservations()->createMany($reservations);
 
         return $booking->load('reservations');
@@ -112,14 +111,15 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        if($booking->delete()) {
+        if ($booking->delete()) {
             return response()->json([
-                'message' => 'booking was deleted successfully!'
+                'message' => 'booking was deleted successfully!',
             ]);
         }
+
         return response()->json([
-                'error' => true,
-                'message' => 'failed to delete the booking!'
+            'error' => true,
+            'message' => 'failed to delete the booking!',
         ]);
     }
 }

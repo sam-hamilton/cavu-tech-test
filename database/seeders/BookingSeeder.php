@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -28,7 +27,7 @@ class BookingSeeder extends Seeder
                 'payment' => '8900',
                 'payment_method' => 'Card',
                 'created_at' => today(),
-            ]
+            ],
         ]);
     }
 }

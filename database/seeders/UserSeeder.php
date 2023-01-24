@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -22,12 +21,12 @@ class UserSeeder extends Seeder
                 'email' => 'sam@example.com',
                 'password' => Hash::make('password'),
                 'created_at' => today()->subDay(),
-            ],[
+            ], [
                 'name' => 'Mark Szymik',
                 'email' => 'mark@example.com',
                 'password' => Hash::make('password'),
                 'created_at' => today(),
-            ]
+            ],
         ]);
     }
 }

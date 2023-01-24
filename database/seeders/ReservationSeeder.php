@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -52,7 +51,7 @@ class ReservationSeeder extends Seeder
                 'booking_id' => 2,
                 'date' => today()->addDays(6),
                 'created_at' => today(),
-            ]
+            ],
         ]);
     }
 }
